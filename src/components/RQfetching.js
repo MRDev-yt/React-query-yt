@@ -3,12 +3,18 @@ import React from 'react';
 import {useQuery} from 'react-query'
 
 function RQfetching() {
+
+     const fetchUsers = () => axios.get("https://jsonplaceholder.typicode.com/users")
+     
+
                   //queries have unique key in rq
                   //usequery accepts a fn that return a promise
-     const {data,isLoading,isError,error}   =  useQuery("users",() => {
-              return  axios.get("https://jsonplaceholder.typicode.com/users")
-            })
-            console.log(error);
+                  //cacheTime is used to maintain the cached data
+                  //Stale time is used to store the stale data as fresh and prevent data refetching in background.
+     const {data,isLoading,isError,error,isFetching}   =  useQuery("users",fetchUsers,{staleTime:10000});
+
+     console.log(`isLoading ${isLoading}, isFetching ${isFetching}`);
+           
             
   return <div>
 
